@@ -221,8 +221,9 @@ umd_courses |>
     total_seats = sum(seats),
     mean_seats = mean(seats),
     median_seats = median(seats),
-    # add minimum seats here
-    # add maximum seats here
+    min_seats = min(seats),
+    max_seats = max(seats)
+    
   ) |>
   arrange(desc(total_seats))
 ```
@@ -231,7 +232,7 @@ Compared to the previous codeblock, what has changed and how did that affect the
 
 **Answer**
 
-### Task 12: Questions
+### Task 15: Questions
 
 No code here; I want you to provide three questions that this data suggests to you. What would you like to ask it?
 
