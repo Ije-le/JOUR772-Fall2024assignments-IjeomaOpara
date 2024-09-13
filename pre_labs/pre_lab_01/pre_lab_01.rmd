@@ -97,7 +97,7 @@ umd_courses <- read_rds("umd_courses.rds")
 
 Once it loads, look at the environment window at right in RStudio for umd_courses It's next to a small blue circle with a white arrow in it. To the right of that, look at how many "obs" the dataset has ("obs" is short for observation, which is another way of saying rows or records). Look at how many variables it has (another way of saying columns or fields). Write the number of observations and variables below.
 
-**Answer 60712**
+**Answer 60712 observations, 8 variables.**
 
 ### Task 6: Glimpse data
 
