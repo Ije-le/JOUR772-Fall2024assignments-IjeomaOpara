@@ -173,7 +173,7 @@ umd_courses |>
 
 Compared to the previous codeblock, how did the output change and what in the code changed it?
 
-**Answer**
+**Answer: There is an extra column and the introduction of the variable "department" changed it**
 
 ### Task 12: Other summary functions
 
@@ -189,7 +189,7 @@ umd_courses |>
   arrange(desc(total_seats))
 ```
 
-Compared to the previous codeblock, what has changed and how did that affect the result? **Answer**
+Compared to the previous codeblock, what has changed and how did that affect the result? **Answer:**
 
 ### Task 13: different kinds of summarizations
 
@@ -207,7 +207,7 @@ umd_courses |>
   arrange(desc(total_seats))
 ```
 
-Compared to the previous codeblock, what has changed and how did that affect the result? What do the top terms have in common? **Answer**
+Compared to the previous codeblock, what has changed and how did that affect the result? What do the top terms have in common? **Answer: The current data now has an average and median column.**
 
 ### Task 14: more aggregations
 
@@ -230,7 +230,7 @@ umd_courses |>
 
 Compared to the previous codeblock, what has changed and how did that affect the result? How is the data sorted?
 
-**Answer**
+**Answer: The data set now shows more columns for the departments with the minimum or maximum number of seats. The data is sorted in descending order.**
 
 ### Task 15: Questions
 
