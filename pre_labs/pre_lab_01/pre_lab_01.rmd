@@ -139,9 +139,9 @@ umd_courses |>
   )
 ```
 
-Describe what you think each line of this code is doing below, based on the result: Each line of the code is showing us how many classes exist in a term.
+Describe what you think each line of this code is doing below, based on the result
 
-**Answer**
+**Answer** Each line of the code is showing us how many classes exist in a term.
 
 ### Task 10: Adding arrange to sort the data
 
@@ -156,7 +156,7 @@ umd_courses |>
   arrange(desc(count_classes))
 ```
 
-Compared to the previous codeblock, what has changed and how did that affect the result? **Answer**
+Compared to the previous codeblock, what has changed and how did that affect the result? **Answer: A new term has assumed the first position, as it is now in descending order.**
 
 ### Task 11: Grouping by multiple columns
 
