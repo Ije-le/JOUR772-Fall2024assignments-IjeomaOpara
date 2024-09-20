@@ -300,7 +300,7 @@ standardized_maryland_expenses <- maryland_expenses |>
 
 **Task** Search the Internet for tidyverse functions similar to str_to_upper. Name at least two and describe what they do. If you use ChatGPT for this, include the question you submitted.
 
-**Answer: similar functions to this one , which I found on Google, include:**
+**Answer: similar functions to str_to_upper, which I found on Google, include:**
 
 **str_to_lower: this makes characters in a column appear in lower case.**
 
