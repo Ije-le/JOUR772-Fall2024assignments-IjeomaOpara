@@ -277,7 +277,7 @@ general_22 |>
 
 Is this a more interesting or useful answer? Why?
 
-**Answer**
+**Answer: Here, percent Moore seems to be organized in ascending order. This makes it easier to know Moore's highest of lowest percentage votes.**
 
 ### Task 14: Standardize existing data using mutate
 
@@ -300,7 +300,11 @@ standardized_maryland_expenses <- maryland_expenses |>
 
 **Task** Search the Internet for tidyverse functions similar to str_to_upper. Name at least two and describe what they do. If you use ChatGPT for this, include the question you submitted.
 
-**Answer**
+**Answer: similar functions to this one include:**
+
+**str_to_lower: this makes characters in a column appear in lower case.**
+
+**str_to_title: this makes characters appear in initial capitals.**
 
 There are lots of potential uses for standardization - addresses, zip codes, anything that can be misspelled or abbreviated.
 
@@ -310,7 +314,7 @@ Mutate is even more useful when combined with some additional functions. Let's k
 
 **Task** Run the following code and look at the output. Then write a sentence or two describing what you think the mutate statement is doing step by step.
 
-**Answer**
+**Answer: The mutate statement is creating a new name or variabe for addresses that have the name of these selected states in them. For instance, all address that has Maryland in them automatically fall under the MD category through the use of case_when. It feels to me like the command is literally saying: "in any case when you see this state(whatever state is being included in the code), write it as this(whatever new variable name is given as a substitute).**
 
 ```{r}
 maryland_expenses_with_state <- maryland_expenses |>
@@ -345,7 +349,7 @@ maryland_expenses_with_state |>
 
 Does this answer make sense to you? Why or why not?
 
-**Answer**
+**Answer: The problem with the answer for me is that there are only two columns, and it is unclear what the second column {total) is calculating.**
 
 Mutate is there to make your data more useful and to make it easier for you to ask more and better questions of it.
 
