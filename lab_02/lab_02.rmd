@@ -39,18 +39,24 @@ maryland_expenses <- read_csv("data/maryland_expenses.csv")
 umd_courses |>
   filter(str_detect( title, "Climate")) |>
   filter(seats>=1) |>
-  
+  group_by(department)|>
+  summarise(
+    count = n()
+  )|>
+  arrange(desc(count))
   
 
 ```
 
-**A1**
+**A1 26 departments have offered courses with "climate" in their titles and has at least one seat. Atmospheric and Oceanic science has offered this the most.**
 
 ------------------------------------------------------------------------
 
 ### **Q2** Which departments have the most courses in the Fall 2023 term? And which departments in that term have at least one syllabus posted? How are the top departments different in each result? Where is Journalism in those results?
 
 ```{r}
+courses_2023 <-umd_courses |>
+  filter(term>202308)
 
 ```
 
