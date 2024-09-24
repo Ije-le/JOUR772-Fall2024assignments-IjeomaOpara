@@ -60,9 +60,10 @@ fall_courses<-umd_courses |>
   filter(syllabus_count>=1) |>
 group_by(department) |>
   summarise(
-    count =n()
+    count_courses =n(),
+    syllabus_count =n()
   ) |>
-arrange(desc(count))
+arrange(desc(count_courses))
 
 head(fall_courses)
 ```
@@ -75,10 +76,10 @@ head(fall_courses)
 
 ```{r}
 maryland_expenses<-maryland_expenses |>
-  mutate(expenditure_date=mdy(expenditure_date) |>
-    month = floor_date(expenditure_date, "month")) |>
+  mutate(expenditure_date = mdy(expenditure_date),
+   month = floor_date(expenditure_date, "month")) |>
+  filter(str_detect(committee_name, "Moore Wes For Maryland")) |>
   group_by(month) |>
-  filter(committee_name == "Moore Wes For Maryland")
   summarise(
     total_amount = sum(amount)
     
@@ -93,6 +94,13 @@ maryland_expenses<-maryland_expenses |>
 ### **Q4** Using case_when(), create a column in the Maryland expenses data called `spending_location` indicating whether each record indicated money spent in Maryland or outside Maryland. For records that are in Maryland, make the new column's value "In-state" and for the others, make it "Out of state". Then write code that shows the total amount of money spent in each category and describe the results. You can do this in one statement or break it up into two statements (saving the new column to your dataframe).
 
 ```{r}
+maryland_expenses_with_spending_location<-maryland_expenses |>
+  mutate(
+    spending_location =case_when(
+      str_detect(address, "Maryland") ~ "In-state"
+      .default = "Out of state"
+    )
+  )
 
 ```
 
