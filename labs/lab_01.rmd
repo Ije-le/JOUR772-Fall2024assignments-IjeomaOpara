@@ -80,8 +80,9 @@ summarise(
 umd_courses |>
   group_by(department,instructors) |>
   summarise(
-    count_courses = n()
+    count_courses = n(),
   )
+
 ```
 
 **A3**

@@ -48,16 +48,23 @@ umd_courses |>
 
 ```
 
-**A1 26 departments have offered courses with "climate" in their titles and has at least one seat. Atmospheric and Oceanic science has offered this the most.**
+**A1 26 departments have offered courses with "climate" in their titles and at least one seat. Atmospheric and Oceanic science has offered this the most.**
 
 ------------------------------------------------------------------------
 
 ### **Q2** Which departments have the most courses in the Fall 2023 term? And which departments in that term have at least one syllabus posted? How are the top departments different in each result? Where is Journalism in those results?
 
 ```{r}
-courses_2023 <-umd_courses |>
-  filter(term>202308)
+fall_courses<-umd_courses |>
+  filter(term == 202308) |>
+  filter(syllabus_count>=1) |>
+group_by(department) |>
+  summarise(
+    count =n()
+  ) |>
+arrange(desc(count))
 
+head(fall_courses)
 ```
 
 **A2**
@@ -67,7 +74,16 @@ courses_2023 <-umd_courses |>
 ### **Q3** Using the Maryland campaign expenses data, change the datatype of the expenditure_date column so that it is a date and not a chr. Then create a new column for the month based on expenditure_date. Then write code that shows total amount spent each month by Wes Moore's committee (you'll need to search the data to find the exact name). Write a sentence describing the pattern of spending over time.
 
 ```{r}
-
+maryland_expenses<-maryland_expenses |>
+  mutate(expenditure_date=mdy(expenditure_date) |>
+    month = floor_date(expenditure_date, "month")) |>
+  group_by(month) |>
+  filter(committee_name == "Moore Wes For Maryland")
+  summarise(
+    total_amount = sum(amount)
+    
+  )
+           
 ```
 
 **A3**
