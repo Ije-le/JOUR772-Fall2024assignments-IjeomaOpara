@@ -290,11 +290,12 @@ cleaned_md_grants_loans <- md_grants_loans |>
     str_detect(zip5, "^UB7") ~ NA,
     .default = zip5
   ))
-#head(cleaned_md_grants_loans)
-filter(source, "MARYLAND TOURISM BOARD") |>
-  group_by(zip5) |>
-  summarise(
-    total_amount=sum(amount) |>
-      arrange(desc(total_amount))
-  )
+head(cleaned_md_grants_loans)
+#filter(source, "MARYLAND TOURISM BOARD")
+  #group_by(zip5) |>
+  #summarise(
+    #total_amount = sum(amount) |>
+    #count = n() |>
+      #arrange(desc(total_amount))
+  #)
 ```
