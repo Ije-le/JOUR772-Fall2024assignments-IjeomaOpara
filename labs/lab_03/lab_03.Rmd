@@ -80,7 +80,17 @@ payments |>
 
 Q4: You want to understand how much state grant money went to stem cell research projects each fiscal year. Search the data to find grants that fit that description. Once you find which columns contain the information you want, your code should standardize the data needed to find just the grants for stem cell research in a single filter. Then create a total amount of money for each fiscal year. Write a sentence summarizing how stem cell research funding has changed over time.
 
-A4:
+A4: Funding for stem cell research was at its highest in 2019. It declined steadily since and reached its lowest point in 2021. However, grants for stem cell research picked up again in 2022 by nearly 50 per cent.
 
 ```{r}
+cleaned_grants_loans <- grants_loans |>
+  clean_names()|> 
+  mutate(description =str_to_upper(description)) |>
+  filter(str_detect(description, "STEM CELL RESEARCH GRANT")) |>
+  group_by(fiscal_year) |>
+  summarize(
+    total_amount=sum(amount)) |>
+  arrange(desc(fiscal_year))
+
+head(cleaned_grants_loans)
 ```
