@@ -157,7 +157,7 @@ code_example_response
  
 ```
 
-**Answer:**
+**Answer: Groq suggested another way to address the question.**
 
 ------------------------------------------------------------------------
 
