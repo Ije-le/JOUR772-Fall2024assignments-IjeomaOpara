@@ -56,7 +56,7 @@ mutate(date= mdy(date))
 
 Q1. Write code to generate the number of calls that occurred on each date. Which date in 2022 had the most overdose calls, and how many? Look at the total number of rows in your result and explore the range of dates - based on your result, do you believe there are any days with no overdose calls at all? Explain why or why not.
 
-A1.
+A1. In 2022, there were two dates with the most overdose calls: June 14 and October 4. There were 23 calls each on those dates. There are 366 rows in the data set, and since this tallies with the number of days that exist in a year, I do not think there were any days with no over dose calls.
 
 ```{r}
 calls |>
@@ -67,7 +67,7 @@ calls |>
 
 Q2. You want to understand if there's a pattern in the day of the week that overdose calls are made. Add a column to your dataframe that displays what day of the week each date represents. You should search for how to do that using lubridate. Then write code to calculate the number of calls for each day of the week, and add a column to that result that calculates the percentage of all calls that occurred on each day of the week (so you want a dataframe with the day of the week, total number of calls and the percentage of calls on that day out of the total number of all calls). Describe your findings to me.
 
-A2.
+A2. My findings show that there are more overdose calls made during the weekends. Between Friday and Sunday overdose calls rise above 600, but during the weekdays, the calls stay between 500 and 600.
 
 ```{r}
 calls |>
