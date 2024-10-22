@@ -115,22 +115,23 @@ Which zip code has the highest rate of calls per 1,000 people? Find the neighbor
 
 A3. The zip codes are in Baltimore, MD.
 
-The zip code with the highest calls per 1000 people is 21217.
+The zip code with the highest calls per 1000 people within this population is 21217, with 774 calls
 
 ```{r}
 calls_in_zip_code<-baltimore_calls_and_maryland_zcta |>
   filter(pct_under_18>=75 ) |>
-  group_by(zip_code, population, location) |>
+  group_by(zip_code, population) |>
   summarize(
     calls_in_zip_code=n()
   )|>
   arrange(desc(calls_in_zip_code)) |>
-  mutate(calls_per_capita=(calls_in_zip_code/population)*1000) |>
-  group_by(zip_code, calls_per_capita) |>
-  summarize(
-    calls_per_capita= n()
-  ) |>
-  arrange(desc(calls_per_capita))
+  
+  mutate(calls_per_capita=(calls_in_zip_code/population)*1000) #|>
+  #group_by(zip_code, calls_per_capita) |>
+  #summarize(
+   # calls_per_capita= n()
+  #) |>
+  #arrange(desc(calls_per_capita))
 
 
 
@@ -139,7 +140,14 @@ calls_in_zip_code<-baltimore_calls_and_maryland_zcta |>
 
 ### Q4. Choose your own adventure: I want you to come up with a question you could ask of the Baltimore City data that combines both the calls and the demographic information. You must use both demographics and the overdose call data in your work.
 
-A4:
+A4: What location had the highest overdose calls from chidren under 18?: Pennsylvania and W North Av, Baltimore had the highest over dose calls from children under 18.
 
 ```{r}
+location_under_18<-baltimore_calls_and_maryland_zcta |>
+  filter(pct_under_18>=75 ) |>
+  group_by(location)|>
+  summarize(
+    total_calls_under_18=n()
+  )|>
+  arrange(desc(total_calls_under_18))
 ```
