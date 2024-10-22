@@ -33,8 +33,7 @@ This week we'll be combining and joining data to make it more useful and to ask 
 allegany_calls<-read_csv("data/allegany_911.csv") |> clean_names()
 carroll_calls<-read.csv("data/carroll_911.csv") |> clean_names()
 cecil_calls<-read.csv("data/cecil_911.csv") |> clean_names()
-baltimore_calls<-read.csv("data/baltimore_911.csv")|> clean_names()
-maryland_zcta<-read.csv("data/maryland_zcta.csv") |> clean_names()
+
 
 carroll_calls <- carroll_calls |> mutate(date = ymd(date))
 cecil_calls <- cecil_calls |> mutate(date = ymd(date))
@@ -52,14 +51,21 @@ Then we'll join some demographic data with Baltimore City 911 calls and ask some
 
 ```{r}
 # load and join the Baltimore-related data
-combined_counties_and_baltimore_calls<-baltimore_calls |> left_join(combined_counties, join_by("location"))
+baltimore_calls<-read.csv("data/baltimore_911.csv")|> clean_names() |>
+mutate(zip_code = as.character(zip_code))
+
+maryland_zcta<-read.csv("data/maryland_zcta.csv") |> clean_names() |>
+mutate(zcta5n = as.character(zcta5n))
+
+baltimore_calls_and_maryland_zcta<-baltimore_calls |> left_join(maryland_zcta, join_by("zip_code"=="zcta5n"))
+
 ```
 
 ## Answer questions
 
 ### Q1. Let's start with our data from Allegany, Cecil and Carroll counties. Write code to generate a dataframe that shows the total number of calls for each county. What's the order of counties from most calls to least?
 
-A1.
+A1. Carroll county recorded the most calls, followed by Cecil, then Allegany county.
 
 ```{r}
 total_calls<-combined_counties |>
@@ -68,32 +74,34 @@ total_calls<-combined_counties |>
     total_calls=n()
   )|>
 arrange(desc(total_calls))
+total_calls
 ```
 
 ### Q2. In your combined dataframe that you used in A1, add a column for the month of each call, then write code to show the total number of calls per county and month. Are there any outliers or noteworthy results? Describe the general pattern of the results.
 
 Then calculate the most calls per county and location. Which location had the most calls - where and what is that location?
 
-A2.
+A2. The general pattern of the results shows that overdose calls seemed to get higher in the middle of the year, especially around July and August in all three counties.
 
-Cecil county had the most calls in August.
+Cecil county had the most calls from 314 Grove Neck Rd, Earleville, MD.\
+A Google search of this location shows that it is an addiction treatment center.
 
 ```{r}
 combined_counties<-combined_counties |>
   mutate(month=month(date, label=TRUE))
   
-  combined_counties |>
+  county_calls<-combined_counties |>
     group_by(county, month) |>
     summarize(
       county_calls=n()
     ) 
   
-  combined_counties<-combined_counties|>
+  location_calls<-combined_counties|>
     group_by(county, location) |>
     summarize(
-      calls=n()
+     location_calls=n()
     )|>
-    arrange(desc(calls))
+   arrange(desc(location_calls))
   
 ```
 
@@ -105,9 +113,28 @@ Add a column to your code that calculates the number of calls per 1,000 people f
 
 Which zip code has the highest rate of calls per 1,000 people? Find the neighborhoods in that zip code that are listed in the data - you can use group_by or distinct to do this. What are some of those neighborhoods?
 
-A3.
+A3. The zip codes are in Baltimore, MD.
+
+The zip code with the highest calls per 1000 people is 21217.
 
 ```{r}
+calls_in_zip_code<-baltimore_calls_and_maryland_zcta |>
+  filter(pct_under_18>=75 ) |>
+  group_by(zip_code, population, location) |>
+  summarize(
+    calls_in_zip_code=n()
+  )|>
+  arrange(desc(calls_in_zip_code)) |>
+  mutate(calls_per_capita=(calls_in_zip_code/population)*1000) |>
+  group_by(zip_code, calls_per_capita) |>
+  summarize(
+    calls_per_capita= n()
+  ) |>
+  arrange(desc(calls_per_capita))
+
+
+
+
 ```
 
 ### Q4. Choose your own adventure: I want you to come up with a question you could ask of the Baltimore City data that combines both the calls and the demographic information. You must use both demographics and the overdose call data in your work.
