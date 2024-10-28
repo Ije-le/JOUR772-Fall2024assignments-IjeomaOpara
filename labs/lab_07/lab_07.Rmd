@@ -136,7 +136,7 @@ zip_calls_and_pop_over_18<-zip_calls_and_pop_over_18 |>
 
 #### **Q4** Using [CensusReporter.org](https://censusreporter.org/), examine the zip codes on Q3 with the highest and lowest rates and compare and contrast their demographic profiles. Is there a story here?
 
-**Answer here:**
+**Answer here: Both zip codes have similar demographics although there is a difference in race: more Black folks reside in Laurel while there are more Hispanic residents in Gaithersburg. Except that there is a lower percentage of person living in poverty in Gaithersburg than Laurel, I really don't see much of a story**
 
 ------------------------------------------------------------------------
 
