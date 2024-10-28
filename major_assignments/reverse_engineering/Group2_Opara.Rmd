@@ -1,5 +1,5 @@
 ---
-title: "Reverse Engineering Project"
+title: "Group 2 reverse engineering"
 author: "Ijeoma Opara"
 date: "October 17, 2024"
 output:
@@ -19,7 +19,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-In this notebook, we are reverse engineering the story, [STORY NAME](STORY%20URL)
+In this notebook, we are reverse engineering the story, **Nearly 250 women have been**
+
+**fatally shot by police since 2015.**
 
 ## Load libraries
 
@@ -61,17 +63,27 @@ In this notebook, we are reverse engineering five sentences from the story.
 fatal_police_shootings |> 
   group_by(gender, race) |> 
   summarize(count=n())
+
+fatal_police_shootings |> 
+  group_by(gender)
+  summarize
 # Display results of code below this codeblock
 
 ```
 
 ### Sentence 2
 
--   **Sentence text**: [Paste in sentence to engineer here]
+-   **Sentence text**: About 31 percent, or 77, of the 247 women fatally shot by police since 2015 had mental health issues, compared to 22 percent of the 5,362 men killed.
 -   **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
 
 ```{r}
 # Put code to reverse engineer sentence here
+
+fatal_police_shootings |> 
+  group_by(signs_of_mental_illness, gender) |>
+  summarize(total=n()
+  ) |>
+   arrange(desc(total))
 
 # Display results of code below this codeblock
 
@@ -79,11 +91,20 @@ fatal_police_shootings |>
 
 ### Sentence 3
 
--   **Sentence text**: [Paste in sentence to engineer here]
+-   **Sentence text**: Since 2015, police have killed 26 unarmed women, including Taylor. Of those, 14 were White, seven were Black, four were Hispanic and one’s race was unknown.
 -   **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
 
 ```{r}
 # Put code to reverse engineer sentence here
+unarmed_women_killed<-fatal_police_shootings |>
+  filter(armed=="unarmed") |>
+  group_by(armed, gender, race) |>
+  summarize(count=n())
+  
+
+unarmed_women_killed
+
+
 
 # Display results of code below this codeblock
 
