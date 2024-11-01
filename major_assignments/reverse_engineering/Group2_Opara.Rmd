@@ -112,11 +112,12 @@ unarmed_women_killed
 
 ### Sentence 4
 
--   **Sentence text**: [Paste in sentence to engineer here]
+-   **Sentence text**: Of the 89 women killed at residences where they lived or often stayed, 12 encounters began as did Taylor’s — with a warrant to conduct a search or make an arrest in an investigation.
 -   **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
 
 ```{r}
 # Put code to reverse engineer sentence here
+
 
 # Display results of code below this codeblock
 
@@ -124,11 +125,16 @@ unarmed_women_killed
 
 ### Sentence 5
 
--   **Sentence text**: [Paste in sentence to engineer here]
+-   The average age of women and men killed by police was 37, and about one-third were 25 to 34.
 -   **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
 
 ```{r}
 # Put code to reverse engineer sentence here
+average_age_of_women <-fatal_police_shootings |>
+  group_by(gender) |>
+  summarize(
+    average_age_of_women =mean(age, na.rm=TRUE)
+  )
 
 # Display results of code below this codeblock
 

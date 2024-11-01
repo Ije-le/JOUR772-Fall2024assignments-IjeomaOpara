@@ -97,7 +97,7 @@ maryland_expenses<-maryland_expenses |>
 maryland_expenses_with_spending_location<-maryland_expenses |>
   mutate(
     spending_location =case_when(
-      str_detect(address, "Maryland") ~ "In-state"
+      str_detect(address, "Maryland") ~ "In-state",
       .default = "Out of state"
     )
   )
