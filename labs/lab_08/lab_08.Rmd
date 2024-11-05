@@ -150,14 +150,14 @@ Follow these steps:
 4.  Add a line of fit to the plot using geom_smooth (<https://ggplot2.tidyverse.org/reference/geom_smooth.html#ref-examples>). Specify the method as lm.
 5.  In the answer space below, describe what you see. In a general sense, how would you report out the main point(s) of this chart? Are there counties that seem to be over or under-performing in relation to the overall trend?
 
-**A4. Counties like Montgomery, Baltimore and Prince Georges seem to be performing better as they have higher ballots sent and received that counties like Washington, Charles and Carroll.**
+**A4. Counties like Montgomery, Baltimore and Prince Georges seem to be performing better as they have higher ballots sent and received than counties like Washington, Charles and Carroll.**
 
 ```{r}
 md_absentee_ballots |>
   ggplot(aes(x=total_sent , y=total_received)) +
   geom_point() +
   geom_text_repel(aes(label=county_name), vjust=-0.5, size=3, max.overlaps = 10)+
-  geom_smooth(method= "lm", se=FALSE, color= "black")
+  geom_smooth(method= "lm", se=FALSE, color= "black")+
   labs (
     title = "Ballots sent and received",
     x = "Total sent",
