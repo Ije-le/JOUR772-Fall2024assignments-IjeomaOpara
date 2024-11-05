@@ -70,8 +70,7 @@ top10_ballots |>
     x = "county",
     y = "Percentage of returned ballots",
     caption = "source: Maryland State Board of Elections"
-    
-  )
+   )
 ```
 
 **Q2.** What are the top 10 counties with the lowest percentage of ballots returned by Democratic voters, and what is the difference between the percentage returned for Democrats and Republicans in those counties? You MUST do the following things when answering this question:
@@ -90,13 +89,11 @@ top_dem_ballots<-md_absentee_ballots |>
   mutate(pct_diff=(pct_dem-pct_rep)) |>
   arrange(pct_dem) |>
 head(10)
-  
-top_dem_ballots
 
 
 top_dem_ballots |>
   ggplot() +
-  geom_bar(aes(x=reorder(county_name,pct_dem), weight=pct_dem)) +
+  geom_bar(aes(x=reorder(county_name,pct_dem), weight=pct_diff)) +
   coord_flip() +
   labs(
     title="Top 10 ballots returned by Democrats",
@@ -106,12 +103,6 @@ top_dem_ballots |>
     
   )
 
-
-#md_absentee_ballots<- md_absentee_ballots |>
- # mutate(pct_returned= (total_received/total_sent)*100)
-
-# <- md_absentee_ballots |>
-  
 ```
 
 **Q3** Let's make a line chart using the second set of absentee ballot data - this one tracking returns by date. We want to see received ballots for Frederick County for Democrats, Republicans and Others, so you'll make a chart with three lines, adding color to each one (you can choose, but choose sensibly). Give the chart a title and good labels. What's the story that this line chart tells? Compare and contrast the three lines. Does it match what you know about absentee voting habits?
@@ -119,7 +110,25 @@ top_dem_ballots |>
 **A3**
 
 ```{r}
-
+fred_county_data<-md_absentee_ballots_date |>
+  filter(county_name=="FREDERICK") #|>
+  
+fred_county_data |>
+  ggplot() +
+  geom_line(aes(x=date, y=dem_received, color= "Dem")) +
+  geom_line(aes(x=date, y=rep_received, color= "Rep")) +
+  geom_line(aes(x=date, y=oth_received, color="Others")) +
+  labs (
+    title = "Absentee Ballots Received in Frederick County",
+    x = "Date",
+    y = "Ballots Received",
+    color = "Party"
+  )+
+  scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
+  theme(
+   axis.text.x = element_text(angle = 45,  hjust=1) 
+  )+
+scale_color_manual(values= c("Dem"="blue", "Rep"="red", "Others"="black"))
 
 ```
 
@@ -144,6 +153,15 @@ Follow these steps:
 **A4.**
 
 ```{r}
-
+md_absentee_ballots |>
+  ggplot(aes(x=total_sent , y=total_received)) +
+  geom_point() +
+  geom_text_repel(aes(label=county_name), vjust=-0.5, size=3, max.overlaps = 10)+
+  labs (
+    title = "Ballots sent and received",
+    x = "Total sent",
+    y = "Total received"
+    )
+  
   
 ```
