@@ -55,17 +55,22 @@ md_statewide <-read_csv("data/md_statewide_county.csv") |>
 counties<-counties()
 
 #Filter out MD counties
-counties |> filter(STATEFP=="24")
+md_counties<-counties |> filter(STATEFP=="24")
 
 ```
 
 ```{r}
 #Merge geometries with voting data
+md_statewide_geometry <-md_counties |> inner_join(md_statewide, by=c("GEOID"="geoid"))
 
 ```
 
 ```{r}
 #Create the map
+ggplot() +
+  geom_sf(data=md_statewide_geometry, aes(fill=pct_diff)) +
+  theme_minimal() +
+  scale_fill_viridis_b(option = "magma ")
 
 ```
 
@@ -75,16 +80,23 @@ counties |> filter(STATEFP=="24")
 
 ```{r}
 #Read data and calculate rate of outages per customer
+county_outages<- read_csv ("data/county_outages_march2023.csv") |>
+  clean_names() |>
+  mutate(rate= (outage_customers/total_customers)*10000)
 
 ```
 
 ```{r}
 #Merge geometries with outage data
-
+md_outages<-md_counties |> inner_join(county_outages, by =c("NAME"="county"))
 ```
 
 ```{r}
 #Map it out
+ggplot()+
+  geom_sf(data=md_outages, aes(fill= rate))+
+  theme_minimal()+
+  scale_fill_binned()
 
 ```
 
