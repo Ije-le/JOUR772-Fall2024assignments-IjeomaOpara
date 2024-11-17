@@ -76,27 +76,40 @@ ggplot() +
 
 **Q2.** Make a county-level map to explore the number of customers impacted by power outages in Maryland. Load the `county_outages_march2023.csv` file in the data folder and calculate a rate of customers with outages per 10,000 total customers for each county. Then join that dataframe to your Maryland counties dataframe you made in Q1 and create a county-level map of the results; you may need to tweak the fill scale to make the distinctions clearer. What's the potential story here? Given access to other months' outage data, what would your next steps be in reporting a story?
 
-**A2.**
+**A2. The potential story here will be that while other counties in Maryland have customer-power-outage rates below 500, Talbot county has the highest rate with more 1500 customers per 10,000 persons in March 2023. The huge difference between the rate of power outage in Talbot compared to other countries is the crux of the story.\
+My next steps if given access to other months' outage data, would be to check for what counties have the highest rates all year round and see if the situation in Talbot county was just a one-time thing or a regular occurrence.**
 
 ```{r}
 #Read data and calculate rate of outages per customer
-county_outages<- read_csv ("data/county_outages_march2023.csv") |>
-  clean_names() |>
-  mutate(rate= (outage_customers/total_customers)*10000)
 
+county_outages<-read_csv("data/county_outages_march2023.csv") |>
+  clean_names() |>
+  mutate(rate=(outage_customers/total_customers)*10000) 
+
+  
 ```
 
 ```{r}
 #Merge geometries with outage data
-md_outages<-md_counties |> inner_join(county_outages, by =c("NAME"="county"))
+md_counties_and_outages<-md_counties |> left_join(county_outages, by=c("NAME"="county"))
 ```
 
 ```{r}
 #Map it out
-ggplot()+
-  geom_sf(data=md_outages, aes(fill= rate))+
-  theme_minimal()+
-  scale_fill_binned()
+ggplot() +
+  geom_sf(data=md_counties_and_outages, aes(fill=rate)) +
+  scale_fill_viridis_b(option="magma") +
+  theme_minimal()
+
+
+
+
+
+
+#ggplot()+
+  #geom_sf(data=md_outages, aes(fill= rate))+
+  #theme_minimal()+
+ # 
 
 ```
 
@@ -108,25 +121,51 @@ Then, calculate a per capita rate of electric & hybrid vehicles using the March 
 
 Finally, make a second county map showing the per capita rate. What counties stand out on this map? How is it different from the first one you made?
 
-**A3.**
+**A3. Five counties stand out: Caroline with the highest percentage change, Charles, Somerset, Garrett and Anne Arundel with percentage changes higher than 2. One question I have is: what was behind the high percentage change in Caroline county?**
 
 ```{r}
 #Read data and calculate change of EV vehicles
-
+md_evs<-read_csv("data/ev_2020_2023.csv") |>
+  mutate(pct_change=(march_2023-july_2020)/july_2020)
+  
 ```
 
 ```{r}
 #Merge geometries with EV data
-
+md_counties_and_evs<-md_counties |> left_join(md_evs, by =c("NAME"="county"))
 ```
 
 ```{r}
 #Map out the change
-
+ggplot() +
+  geom_sf(data=md_counties_and_evs, aes(fill=pct_change)) +
+  scale_fill_viridis_b(option = "magma") +
+  theme_minimal()
 ```
 
 ```{r}
+#Next, use tidycensus to retrieve county population data for Maryland from 2021 (you did this in the pre_lab) and join it to your vehicles dataframe. HINT: you may not need to join it on the county name, and you should already have the geometry!
+
+#Then, calculate a per capita rate of electric & hybrid vehicles using the March 2023 figure and the population estimate. You will need to choose the "per capita" value.
+
+#Finally, make a second county map showing the per capita rate. What counties stand out on this map? How is it different from the first one you made?
+
 #Grab population data from Census
+install.packages('tigris')
+library(tigris)
+md_county_population <- get_acs(geography = "county",
+              variables = c(population = "B01001_001"),
+              year = 2021,
+              state = "MD",
+              geometry = TRUE)
+
+md_pop_and_evs<-md_county_population |> st_join(md_counties_and_evs, by=("GEOID"))
+
+
+
+
+
+
 
 ```
 
