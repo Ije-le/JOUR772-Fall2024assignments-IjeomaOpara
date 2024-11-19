@@ -159,8 +159,9 @@ md_county_population <- get_acs(geography = "county",
               state = "MD",
               geometry = TRUE)
 
-md_pop_and_evs<-md_county_population |> st_join(md_counties_and_evs, by=("GEOID"))
-
+md_pop_and_evs<-md_county_population |> st_join(md_counties_and_evs,)|> clean_names() |>
+  select(-geoid_x) |>
+  select(-name_x)
 
 
 
@@ -171,10 +172,17 @@ md_pop_and_evs<-md_county_population |> st_join(md_counties_and_evs, by=("GEOID"
 
 ```{r}
 #Calculate per capita rate for March 2023
+md_pop_and_evs<-md_pop_and_evs |>
+  mutate(per_capita = march_2023/estimate)
+  
 
 ```
 
 ```{r}
 #Map out the per capita rate
+ggplot() +
+  geom_sf(data=md_pop_and_evs (fill=per_capita)) +
+  scale_fill_viridis_b(option = "magma") +
+  theme_minimal()
 
 ```
