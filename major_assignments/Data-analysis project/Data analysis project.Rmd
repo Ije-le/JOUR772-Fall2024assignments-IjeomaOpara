@@ -1,0 +1,41 @@
+---
+title: "Data-analysis-project"
+output: html_document
+date: "2024-11-19"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Analysis Project
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+library(tidyverse)
+library(tidycensus)
+library(janitor)
+library(tigris)
+library(dplyr)
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r}
+voter_data_2024<- read_csv("data/election_results.csv") |> clean_names()
+
+voter_data_2024 <- voter_data |>
+  mutate(wrteins= sharon_e_harris_write_in_democratic + ralph_jaffe_write_in_democratic + paij_boring_and_jaimey_rutschman_write_in_republican + sethatina_newman_write_in_republican + carol_asher_write_in_other_candidates + jokie_beckett_jr_write_in_other_candidates + claudia_de_la_cruz_and_karina_garcia_write_in_other_candidates + john_r_gibb_jr_write_in_other_candidates + joseph_kishore_write_in_other_candidates + william_p_stodden_write_in_other_candidates + shiva_ayyadurai_and_crystal_ellis_write_in_unaffiliated + president_r_boddie_write_in_unaffiliated + theo_brown_sr_write_in_unaffiliated + susan_maude_buchser_write_in_unaffiliated + john_cheng_and_wayne_waligorski_write_in_unaffiliated + cherunda_fox_write_in_unaffiliated + garry_hubbard_and_elizabeth_seymour_write_in_unaffiliated + shondra_irving_write_in_unaffiliated + douglas_jenkins_write_in_unaffiliated + brian_larry_kienitz_write_in_unaffiliated + richard_mayers_write_in_unaffiliated + andre_ramon_mc_neil_sr_write_in_unaffiliated + future_madam_potus_and_jessica_kennedy_write_in_unaffiliated + benjamin_l_schwalb_write_in_unaffiliated + peter_sonski_write_in_unaffiliated + lester_h_waller_jr_write_in_unaffiliated + cornel_west_and_melina_abdullah_write_in_unaffiliated + michael_yost_write_in_unaffiliated + other_write_ins)
+
+clean_voter_data_2024<- voter_data |>
+  select(-sharon_e_harris_write_in_democratic, -ralph_jaffe_write_in_democratic, -paij_boring_and_jaimey_rutschman_write_in_republican, -sethatina_newman_write_in_republican, -carol_asher_write_in_other_candidates, -jokie_beckett_jr_write_in_other_candidates, -claudia_de_la_cruz_and_karina_garcia_write_in_other_candidates, -john_r_gibb_jr_write_in_other_candidates, -joseph_kishore_write_in_other_candidates, -william_p_stodden_write_in_other_candidates, -shiva_ayyadurai_and_crystal_ellis_write_in_unaffiliated, -president_r_boddie_write_in_unaffiliated, -theo_brown_sr_write_in_unaffiliated, -susan_maude_buchser_write_in_unaffiliated, -john_cheng_and_wayne_waligorski_write_in_unaffiliated, -cherunda_fox_write_in_unaffiliated, -garry_hubbard_and_elizabeth_seymour_write_in_unaffiliated, -shondra_irving_write_in_unaffiliated, -douglas_jenkins_write_in_unaffiliated, -brian_larry_kienitz_write_in_unaffiliated, -richard_mayers_write_in_unaffiliated, -andre_ramon_mc_neil_sr_write_in_unaffiliated, -future_madam_potus_and_jessica_kennedy_write_in_unaffiliated, -benjamin_l_schwalb_write_in_unaffiliated, -peter_sonski_write_in_unaffiliated, -lester_h_waller_jr_write_in_unaffiliated, -cornel_west_and_melina_abdullah_write_in_unaffiliated, -michael_yost_write_in_unaffiliated, -other_write_ins)
+  
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
