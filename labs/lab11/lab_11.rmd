@@ -41,16 +41,41 @@ md_attorney_sanctions <- read_csv("data/md_attorney_sanctions.csv")
 
 ```{r}
 #Create list of unique words
+unique_words <- md_attorney_sanctions |> 
+ select(text) |>
+  unnest_tokens(word, text)
+View(unique_words)
+
 
 ```
 
 ```{r}
 #Load stop words
+data("stop_words")
+
+stop_words <- stop_words |> 
+  add_row(word = "arizona") |> 
+  add_row(word = "client") |> 
+  add_row(word = "funds") |>
+  add_row(word = "united") |>
+  add_row(word = "states") |>
+  add_row(word = "colorado") |> 
+  add_row(word = "records") |> 
+  add_row(word = "august") |> 
+  add_row(word = "year") |> 
+  add_row(word = "april")  
+
 
 ```
 
 ```{r}
 #Remove stop words from unique words list
+unique_words |>
+  anti_join(stop_words) |>
+  group_by(word) |>
+  tally(sort=TRUE) |>
+  mutate(percent = (n/sum(n))*100) 
+
 
 ```
 
@@ -62,6 +87,16 @@ md_attorney_sanctions <- read_csv("data/md_attorney_sanctions.csv")
 
 ```{r}
 # Check the task 12 on Pre-lab 11 to see if you can use that code
+top_ten_phrases <- md_attorney_sanctions |>
+  unnest_tokens(trigam, text, token = "ngrams", n = 3) |>
+  separate(trigam, c("word1", "word2","word3"), sep = " ") |>
+  filter(!word1 %in% stop_words$word) |>
+  filter(!word2 %in% stop_words$word) |>
+  mutate(trigram = paste(word1, word2, word3, sep=" ")) |>
+  group_by(trigram) |>
+  tally(sort=TRUE) |>
+  mutate(percent = (n/sum(n))*100)|>
+  top_n(10)
 
 ```
 
@@ -72,7 +107,11 @@ md_attorney_sanctions <- read_csv("data/md_attorney_sanctions.csv")
 ##### **Q3.** Let's drop back down to more traditional text analysis - take the top trigram from Q2 and write code to see how many times it occurs in the text column in each fiscal year. What do you think the answer produced by your code suggests? What else could you do to try and clarify the most important reasons attorneys get sanctioned?
 
 ```{r}
-
+trigram <- "attorney trust account"
+sanctions_with_phrases <-md_attorney_sanctions |> 
+  mutate(trigram_occurrences = str_count(text, fixed(trigram))) |>
+  group_by(fiscal_year) |>
+  summarise(total_occurrences = sum(trigram_occurrences,na.rm=TRUE))
 ```
 
 **A3.**
