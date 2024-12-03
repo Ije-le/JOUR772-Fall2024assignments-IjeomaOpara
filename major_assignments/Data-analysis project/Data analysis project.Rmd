@@ -30,12 +30,91 @@ You can also embed plots, for example:
 ```{r}
 voter_data_2024<- read_csv("data/election_results.csv") |> clean_names()
 
-voter_data_2024 <- voter_data |>
-  mutate(wrteins= sharon_e_harris_write_in_democratic + ralph_jaffe_write_in_democratic + paij_boring_and_jaimey_rutschman_write_in_republican + sethatina_newman_write_in_republican + carol_asher_write_in_other_candidates + jokie_beckett_jr_write_in_other_candidates + claudia_de_la_cruz_and_karina_garcia_write_in_other_candidates + john_r_gibb_jr_write_in_other_candidates + joseph_kishore_write_in_other_candidates + william_p_stodden_write_in_other_candidates + shiva_ayyadurai_and_crystal_ellis_write_in_unaffiliated + president_r_boddie_write_in_unaffiliated + theo_brown_sr_write_in_unaffiliated + susan_maude_buchser_write_in_unaffiliated + john_cheng_and_wayne_waligorski_write_in_unaffiliated + cherunda_fox_write_in_unaffiliated + garry_hubbard_and_elizabeth_seymour_write_in_unaffiliated + shondra_irving_write_in_unaffiliated + douglas_jenkins_write_in_unaffiliated + brian_larry_kienitz_write_in_unaffiliated + richard_mayers_write_in_unaffiliated + andre_ramon_mc_neil_sr_write_in_unaffiliated + future_madam_potus_and_jessica_kennedy_write_in_unaffiliated + benjamin_l_schwalb_write_in_unaffiliated + peter_sonski_write_in_unaffiliated + lester_h_waller_jr_write_in_unaffiliated + cornel_west_and_melina_abdullah_write_in_unaffiliated + michael_yost_write_in_unaffiliated + other_write_ins)
+voter_data_2024 <- voter_data_2024 |>
+  mutate(writeins= sharon_e_harris_write_in_democratic + ralph_jaffe_write_in_democratic + paij_boring_and_jaimey_rutschman_write_in_republican + sethatina_newman_write_in_republican + carol_asher_write_in_other_candidates + jokie_beckett_jr_write_in_other_candidates + claudia_de_la_cruz_and_karina_garcia_write_in_other_candidates + john_r_gibb_jr_write_in_other_candidates + joseph_kishore_write_in_other_candidates + william_p_stodden_write_in_other_candidates + shiva_ayyadurai_and_crystal_ellis_write_in_unaffiliated + president_r_boddie_write_in_unaffiliated + theo_brown_sr_write_in_unaffiliated + susan_maude_buchser_write_in_unaffiliated + john_cheng_and_wayne_waligorski_write_in_unaffiliated + cherunda_fox_write_in_unaffiliated + garry_hubbard_and_elizabeth_seymour_write_in_unaffiliated + shondra_irving_write_in_unaffiliated + douglas_jenkins_write_in_unaffiliated + brian_larry_kienitz_write_in_unaffiliated + richard_mayers_write_in_unaffiliated + andre_ramon_mc_neil_sr_write_in_unaffiliated + future_madam_potus_and_jessica_kennedy_write_in_unaffiliated + benjamin_l_schwalb_write_in_unaffiliated + peter_sonski_write_in_unaffiliated + lester_h_waller_jr_write_in_unaffiliated + cornel_west_and_melina_abdullah_write_in_unaffiliated + michael_yost_write_in_unaffiliated + other_write_ins)
 
-clean_voter_data_2024<- voter_data |>
+clean_voter_data_2024<- voter_data_2024 |>
   select(-sharon_e_harris_write_in_democratic, -ralph_jaffe_write_in_democratic, -paij_boring_and_jaimey_rutschman_write_in_republican, -sethatina_newman_write_in_republican, -carol_asher_write_in_other_candidates, -jokie_beckett_jr_write_in_other_candidates, -claudia_de_la_cruz_and_karina_garcia_write_in_other_candidates, -john_r_gibb_jr_write_in_other_candidates, -joseph_kishore_write_in_other_candidates, -william_p_stodden_write_in_other_candidates, -shiva_ayyadurai_and_crystal_ellis_write_in_unaffiliated, -president_r_boddie_write_in_unaffiliated, -theo_brown_sr_write_in_unaffiliated, -susan_maude_buchser_write_in_unaffiliated, -john_cheng_and_wayne_waligorski_write_in_unaffiliated, -cherunda_fox_write_in_unaffiliated, -garry_hubbard_and_elizabeth_seymour_write_in_unaffiliated, -shondra_irving_write_in_unaffiliated, -douglas_jenkins_write_in_unaffiliated, -brian_larry_kienitz_write_in_unaffiliated, -richard_mayers_write_in_unaffiliated, -andre_ramon_mc_neil_sr_write_in_unaffiliated, -future_madam_potus_and_jessica_kennedy_write_in_unaffiliated, -benjamin_l_schwalb_write_in_unaffiliated, -peter_sonski_write_in_unaffiliated, -lester_h_waller_jr_write_in_unaffiliated, -cornel_west_and_melina_abdullah_write_in_unaffiliated, -michael_yost_write_in_unaffiliated, -other_write_ins)
   
+clean_voter_data_2024
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+voter_data_and_third_party_2024<-clean_voter_data_2024 |>
+  mutate(third_party= (chase_oliver_and_mike_ter_maat_libertarian + jill_ellen_stein_and_rudolph_ware_green + robert_f_kennedy_jr_and_nicole_shanahan_unaffiliated)) |>
+select(-chase_oliver_and_mike_ter_maat_libertarian, -jill_ellen_stein_and_rudolph_ware_green, -robert_f_kennedy_jr_and_nicole_shanahan_unaffiliated)
+voter_data_and_third_party_2024
+
+  
+
+```
+
+```{r}
+voter_data_and_third_party_2024 <- voter_data_and_third_party_2024 |>
+  mutate(total_votes= (kamala_d_harris_and_tim_walz_democratic + donald_j_trump_and_jd_vance_republican + writeins + third_party))
+
+voter_data_and_third_party_2024<-voter_data_and_third_party_2024 |>
+  mutate(harris_voter_percent=(kamala_d_harris_and_tim_walz_democratic/total_votes)*100) |>
+  mutate(trump_percent= (donald_j_trump_and_jd_vance_republican/total_votes)*100) |>
+  mutate(third_party_percent=(third_party/total_votes)*100) |>
+  mutate(writeins_percent=(writeins/total_votes)*100)
+
+```
+
+```{r}
+voter_data_2020<- read_csv("data/2020_election_results.csv") |> clean_names()
+
+clean_voter_data_2020<-voter_data_2020  |>
+  mutate(writeins=sharon_wallace_and_karen_m_short_write_in_democratic +
+dennis_andrew_ball_write_in_other +
+barbara_bellar_write_in_other +
+president_boddie_write_in_other +
+mary_ruth_caro_simmons_and_sherrie_dow_write_in_other +
+brian_carroll_write_in_other +
+todd_cella_write_in_other +
+mark_charles_and_adrian_wallace_write_in_other +
+phil_collins_write_in_other +
+roque_rocky_de_la_fuente_write_in_other +
+ryan_ehrenreich_and_veronica_ehrenreich_write_in_other +
+randall_foltyniewkz_write_in_other +
+tom_hoefling_and_andy_prior_write_in_other +
+shawn_howard_write_in_other +
+johnson_lee_write_in_other +
+susan_b_lochocki_write_in_other +
+brock_pierce_and_karia_ballard_write_in_other +
+deborah_rouse_and_sheila_cannon_write_in_other +
+peter_w_sherrill_write_in_other +
+jade_simmons_and_claudeligh_j_roze_write_in_other +
+kasey_wells_write_in_other +
+kanye_west_write_in_other +
+gloria_la_riva_and_sunil_freeman_write_in_unaffiliated +
+albert_raley_write_in_unaffiliated +
+benjamin_schwalb_write_in_unaffiliated +
+edward_shlikas_write_in_unaffiliated +
+other_write_ins
+)
+
+clean_voter_data_2020 <- clean_voter_data_2020 |>
+  select(-sharon_wallace_and_karen_m_short_write_in_democratic, -dennis_andrew_ball_write_in_other, -barbara_bellar_write_in_other, -president_boddie_write_in_other, -mary_ruth_caro_simmons_and_sherrie_dow_write_in_other, -brian_carroll_write_in_other, -todd_cella_write_in_other, -mark_charles_and_adrian_wallace_write_in_other, -phil_collins_write_in_other, -roque_rocky_de_la_fuente_write_in_other, -ryan_ehrenreich_and_veronica_ehrenreich_write_in_other, -randall_foltyniewkz_write_in_other, -tom_hoefling_and_andy_prior_write_in_other, -shawn_howard_write_in_other, -johnson_lee_write_in_other, -susan_b_lochocki_write_in_other, -brock_pierce_and_karia_ballard_write_in_other, -deborah_rouse_and_sheila_cannon_write_in_other, -peter_w_sherrill_write_in_other,-jade_simmons_and_claudeligh_j_roze_write_in_other, -kasey_wells_write_in_other, -kanye_west_write_in_other,
+-gloria_la_riva_and_sunil_freeman_write_in_unaffiliated, -albert_raley_write_in_unaffiliated, -benjamin_schwalb_write_in_unaffiliated, -edward_shlikas_write_in_unaffiliated, -other_write_ins)
+
+
+voter_data_2020_and_third_party<-clean_voter_data_2020 |>
+  mutate(third_party=jo_jorgensen_and_jeremy_spike_cohen_libertarian +
+howie_gresham_hawkins_and_angela_walker_green +
+jerome_m_segal_and_john_de_graaf_bread_and_roses) |>
+  select(-jo_jorgensen_and_jeremy_spike_cohen_libertarian, -howie_gresham_hawkins_and_angela_walker_green, -jerome_m_segal_and_john_de_graaf_bread_and_roses)
+
+```
+
+```{r}
+voter_data_2020_and_third_party |>
+  mutate(total=(donald_j_trump_and_michael_pence_republican + joe_biden_and_kamala_harris_democratic + third_party+writeins)) |>
+  mutate(pct_biden=(joe_biden_and_kamala_harris_democratic/total)*100) |>
+  mutate(pct_trump=(donald_j_trump_and_michael_pence_republican/total)*100) |>
+  mutate(pct_writeins=(writeins/total)*100) |>
+  mutate(pct_third_party=(third_party/total)*100)
+
+```
