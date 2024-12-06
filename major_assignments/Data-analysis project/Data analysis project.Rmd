@@ -118,3 +118,7 @@ voter_data_2020_and_third_party |>
   mutate(pct_third_party=(third_party/total)*100)
 
 ```
+
+```{r}
+
+```
