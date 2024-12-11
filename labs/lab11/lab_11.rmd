@@ -107,11 +107,16 @@ top_ten_phrases <- md_attorney_sanctions |>
 ##### **Q3.** Let's drop back down to more traditional text analysis - take the top trigram from Q2 and write code to see how many times it occurs in the text column in each fiscal year. What do you think the answer produced by your code suggests? What else could you do to try and clarify the most important reasons attorneys get sanctioned?
 
 ```{r}
-trigram <- "attorney trust account"
-sanctions_with_phrases <-md_attorney_sanctions |> 
-  mutate(trigram_occurrences = str_count(text, fixed(trigram))) |>
-  group_by(fiscal_year) |>
-  summarise(total_occurrences = sum(trigram_occurrences,na.rm=TRUE))
+top_ten_phrases <- md_attorney_sanctions |>
+  unnest_tokens(trigam, text, token = "ngrams", n = 3) |>
+  separate(trigam, c("word1", "word2","word3"), sep = " ") |>
+  filter(!word1 %in% stop_words$word) |>
+  filter(!word2 %in% stop_words$word) |>
+  mutate(trigram = paste(word1, word2, word3, sep=" ")) |>
+  filter(str_detect(trigram, "attorney trust account")) |>
+  group_by(trigram, fiscal_year) |>
+  tally(sort=TRUE) |>
+  top_n(10)
 ```
 
-**A3.**
+**A3. From the table displayed here, I see an increase in lawyers sanctioned in relation to "attorney trust account." Between 2017 and 2022, the number of sanctioned lawyers went from 1 to 89.**
